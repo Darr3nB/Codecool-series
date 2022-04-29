@@ -27,6 +27,7 @@ def should_use_trakt():
     answer = input("Do you want to connect to the TRAKT API? (y/n) ")
     return answer.lower() == "y"
 
+
 def main():
     # We don't have documentation for trakt, so students shouldn't be exposed to it
     # if you want to re-enable it by adding documentation about trakt to the project

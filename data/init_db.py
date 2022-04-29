@@ -10,10 +10,10 @@ def init_db():
     with establish_connection(connection_data=connection_data) as conn:
         with conn.cursor() as cursor:
             try:
-                drop_statement = 'DROP DATABASE IF EXISTS "{}";'.format(db_to_init)
-                create_statement = 'CREATE DATABASE "{}";'.format(db_to_init)
-                cursor.execute(drop_statement)
-                cursor.execute(create_statement)
+                # drop_statement = 'DROP DATABASE IF EXISTS "{}";'.format(db_to_init)
+                # create_statement = 'CREATE DATABASE "{}";'.format(db_to_init)
+                # cursor.execute(drop_statement)
+                # cursor.execute(create_statement)
                 print(f"Database {db_to_init} is created")
             except Exception as ex:
                 print(f"Database creation failed: {db_to_init}")
