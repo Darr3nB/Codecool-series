@@ -19,11 +19,11 @@ def design():
     return render_template('design.html')
 
 
+@app.route("/shows")
 @app.route("/shows/most-rated")
 def most_rated():
     if request.method == "GET":
         most_rated_shows = util.most_rated_shows()
-        print(most_rated_shows)
 
         return render_template('most_rated_shows.html', shows=most_rated_shows)
 

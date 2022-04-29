@@ -27,8 +27,8 @@ def get_show_by_id(show_id):
         FROM shows
         JOIN show_genres sg on shows.id = sg.show_id
         JOIN genres g on g.id = sg.genre_id
-        JOIN show_characters sc on shows.id = sc.show_id
-        JOIN actors a on a.id = sc.actor_id
+        LEFT JOIN show_characters sc on shows.id = sc.show_id
+        LEFT JOIN actors a on a.id = sc.actor_id
         WHERE shows.id=%(id)s
         GROUP BY shows.id
         """, {'id': show_id}, fetchall=False)

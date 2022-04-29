@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style/form.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='style/grid.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='style/utils.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/pagination.css') }}">
 
     <!-- page specific styling -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style/detailed-view.css') }}">
@@ -43,39 +44,38 @@
     <section>
         <h1 class="title text-center">Shows</h1>
         <div class="card">
-            <ul>
-                <table>
-                    <tr>
-                        <th>Title<br><span id="sort-arrow-up-title">⇩</span> <span id="sort-arrow-down-title">⇧</span></th>
-                        <th>Year<br><span id="sort-arrow-up-year">⇩</span> <span id="sort-arrow-down-year">⇧</span></th>
-                        <th>Runtime (min)<br><span id="sort-arrow-up-runtime">⇩</span> <span id="sort-arrow-down-runtime">⇧</span></th>
-                        <th>Rating<br><span id="sort-arrow-up-rating">⇩</span> <span id="sort-arrow-down-rating">⇧</span></th>
-                        <th>Genre<br><span id="sort-arrow-up-genre">⇩</span> <span id="sort-arrow-down-genre">⇧</span></th>
-                        <th>Trailer<br><span id="sort-arrow-up-trailer">⇩</span> <span id="sort-arrow-down-trailer">⇧</span></th>
-                        <th>Homepage<br><span id="sort-arrow-up-homepage">⇩</span> <span id="sort-arrow-down-homepage">⇧</span></th>
+            <table id="table">
+                <tr class="tr-header">
+                    <th class="header-title">Title</th>
+                    <th class="year">Year</th>
+                    <th class="runtime">Runtime (min)</th>
+                    <th class="rating">Rating</th>
+                    <th class="genre">Genre</th>
+                    <th class="trailer">Trailer</th>
+                    <th class="homepage">Homepage</th>
+                </tr>
+                {% for show in shows %}
+                    <tr class="td-data-row">
+                        <td><a href="/show/{{ show['id'] }}">{{ show['title'] }}</a></td>
+                        <td>{{ show['year'] }}</td>
+                        <td>{{ show['runtime'] }}</td>
+                        <td>{{ show['rating'] }}</td>
+                        <td>{{ show['genre'] }}</td>
+                        {% if show['trailer'] != None %}
+                            <td><a href="{{ show['trailer'] }}" target="_blank">Link</a></td>
+                        {% else %}
+                            <td>No URL</td>
+                        {% endif %}
+                        {% if show['homepage'] != None %}
+                            <td><a href="{{ show['homepage'] }}" target="_blank">Link</a></td>
+                        {% else %}
+                            <td>No URL</td>
+                        {% endif %}
                     </tr>
-                    {% for show in shows %}
-                        <tr>
-                            <td><a href="/show/{{ show['id'] }}">{{ show['title'] }}</a></td>
-                            <td>{{ show['year'] }}</td>
-                            <td>{{ show['runtime'] }}</td>
-                            <td>{{ show['rating'] }}</td>
-                            <td>{{ show['genre'] }}</td>
-                            {% if show['trailer'] != None %}
-                                <td><a href="{{ show['trailer'] }}" target="_blank">Link</a></td>
-                            {% else %}
-                                <td>No URL</td>
-                            {% endif %}
-                            {% if show['homepage'] != None %}
-                                <td><a href="{{ show['homepage'] }}" target="_blank">Link</a></td>
-                            {% else %}
-                                <td>No URL</td>
-                            {% endif %}
-                        </tr>
-                    {% endfor %}
-                </table>
-                <br><a href="/">Homepage</a>
-            </ul>
+                {% endfor %}
+            </table>
+            <div class="pagination"><a href="#">«</a><a href="#">»</a></div>
+            <br><a href="/">Homepage</a>
         </div>
     </section>
     <footer>
@@ -86,5 +86,6 @@
     <div class="dark-blue-layer"></div>
     <div class="light-blue-layer"></div>
 </div>
+<script type="module" src="/static/js/sorting-most-rated.js"></script>
 </body>
 </html>

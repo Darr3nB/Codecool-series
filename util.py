@@ -21,6 +21,7 @@ def find_show(show_id):
         time_string = f"{hours}h {minutes}min"
 
     result['runtime'] = time_string
+
     if result['trailer'] is not None:
         result['trailer'] = result['trailer'].replace('watch?v=', 'embed/')
 
