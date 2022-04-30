@@ -5,18 +5,19 @@ def get_shows():
     return data_manager.execute_select('SELECT id, title FROM shows;')
 
 
-def get_most_rated_shows():
+def get_most_rated_shows(number_for_db, order_by, direction):
     return data_manager.execute_select(
-        """
+        f"""
         SELECT shows.id as id, title, year, ROUND(AVG(runtime), 1) as runtime, ROUND(rating, 1) as rating, 
         STRING_AGG(g.name, ', ') AS genre, trailer, homepage
         FROM shows 
         INNER JOIN show_genres sg on shows.id = sg.show_id
         INNER JOIN genres g on g.id = sg.genre_id
         GROUP BY shows.id, title, runtime, rating
-        ORDER BY rating DESC, genre
+        ORDER BY {order_by} {direction}, genre
+        OFFSET %(number_for_db)s
         LIMIT 15
-        """)
+        """, {'number_for_db': number_for_db})
 
 
 def get_show_by_id(show_id):
@@ -42,3 +43,7 @@ def get_seasons_for_show(show_id):
             JOIN shows s on seasons.show_id = s.id
             WHERE s.id=%(id)s
         """, {'id': show_id})
+
+
+def get_all_shows_number():
+    return data_manager.execute_select("SELECT COUNT(DISTINCT id) as id FROM shows", fetchall=False)

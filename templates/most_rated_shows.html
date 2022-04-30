@@ -74,7 +74,17 @@
                     </tr>
                 {% endfor %}
             </table>
-            <div class="pagination"><a href="#">«</a><a href="#">»</a></div>
+            <div class="pagination">
+                <a id="leftArrow">«</a>
+                {% for element in range(1, number_of_pages + 1) %}
+                    {% if element == page %}
+                        <a class="page-button {{ element }} active">{{ element }}</a>
+                    {% else %}
+                        <a class="page-button {{ element }}">{{ element }}</a>
+                    {% endif %}
+                {% endfor %}
+                <a id="rightArrow">»</a>
+            </div>
             <br><a href="/">Homepage</a>
         </div>
     </section>

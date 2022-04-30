@@ -39,10 +39,10 @@ table th.action-column {
     background: rgb(203, 75, 70);
 }
 
-.asc::after {
+.ASC::after {
     content: " ⇩";
 }
 
-.desc::after {
+.DESC::after {
     content: " ⇧";
 }

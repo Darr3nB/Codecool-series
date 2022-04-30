@@ -20,12 +20,28 @@ def design():
 
 
 @app.route("/shows")
-@app.route("/shows/most-rated")
-def most_rated():
+@app.route("/shows/most-rated", methods=['GET', 'POST'])
+def most_rated(page=1, order_by='rating', direction='DESC'):
     if request.method == "GET":
-        most_rated_shows = util.most_rated_shows()
+        most_rated_shows = util.most_rated_shows(page, order_by, direction)
+        number_of_pages = util.number_of_pages()
 
-        return render_template('most_rated_shows.html', shows=most_rated_shows)
+        return render_template('most_rated_shows.html', shows=most_rated_shows, number_of_pages=number_of_pages, page=page)
+    elif request.method == 'POST':
+        number_of_pages = util.number_of_pages()
+
+        order_by_from_js = request.json['order_by']
+        direction_from_js = request.json['direction']
+        page = request.json['page']
+
+        if order_by_from_js != 'undefined':
+            order_by = order_by_from_js
+        if direction_from_js != 'undefined':
+            direction = direction_from_js
+
+        most_rated_shows = util.most_rated_shows(int(page), order_by, direction)
+
+        return render_template('most_rated_shows.html', shows=most_rated_shows, number_of_pages=number_of_pages, page=page)
 
 
 @app.route("/show/<show_id>")

@@ -1,5 +1,58 @@
 async function initEventListener() {
     document.querySelectorAll("th").forEach(element => element.addEventListener('click', sortMostRatedShows));
+    document.getElementById('leftArrow').addEventListener('click', paginationLeftArrowClick);
+    document.getElementById('rightArrow').addEventListener('click', paginationRightArrowClick);
+    document.querySelectorAll('.page-button').forEach(element => element.addEventListener('click', pageEventListener))
+}
+
+async function pageEventListener(event){
+    let newPage = event.currentTarget.innerText;
+    let order_by;
+    let headers = document.querySelectorAll("th")
+    let direction;
+
+    headers.forEach(function(element){
+        if(element.classList.contains('ASC') || element.classList.contains('DESC')){
+            order_by = element.classList[0];
+            direction = element.classList[1];
+        }
+    })
+
+    if(order_by === "header-title"){
+        order_by = 'title';
+    }else if(order_by === undefined){
+        order_by = 'undefined'
+    }
+
+    if(direction === undefined){
+        direction = 'undefined'
+    }
+
+    await fetchSpecificPage(newPage, order_by, direction);
+}
+
+async function fetchSpecificPage(page, order_by, direction){
+    await fetch("/shows/most-rated", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({'page': page, 'order_by': order_by, 'direction': direction}),
+    }).then(function(response){
+        console.log(response);
+    }).catch(function (){
+        console.log('Something went horribly wrong. Who did upset Peeves agin?!');
+    })
+}
+
+
+function paginationLeftArrowClick(event){
+    console.log(event.currentTarget);
+}
+
+
+function paginationRightArrowClick(event){
+    console.log(event.currentTarget);
 }
 
 
@@ -45,26 +98,28 @@ function bubbleSort(oldTableData, sortTarget){
     return oldTableData
 }
 
+
 function ascDescAdder(currentTarget, newTableData){
-    if(!currentTarget.contains('asc')){
-        currentTarget.add('asc');
-        if(currentTarget.contains('desc')){
-            currentTarget.remove('desc');
+    if(!currentTarget.contains('ASC')){
+        currentTarget.add('ASC');
+        if(currentTarget.contains('DESC')){
+            currentTarget.remove('DESC');
         }
-    }else if(currentTarget.contains('asc')){
-        currentTarget.remove('asc');
+    }else if(currentTarget.contains('ASC')){
+        currentTarget.remove('ASC');
         newTableData = newTableData.reverse();
-        currentTarget.add('desc');
+        currentTarget.add('DESC');
     }
 }
+
 
 function removeUnnecessarySortName(trHeader, sortTarget){
     let gg = trHeader.querySelectorAll('th')
     gg.forEach(ez => {
-        if (!ez.classList.contains(sortTarget) && ez.classList.contains('asc')) {
-            ez.classList.remove('asc')
-        } else if (!ez.classList.contains(sortTarget) && ez.classList.contains('desc')) {
-            ez.classList.remove('desc')
+        if (!ez.classList.contains(sortTarget) && ez.classList.contains('ASC')) {
+            ez.classList.remove('ASC')
+        } else if (!ez.classList.contains(sortTarget) && ez.classList.contains('DESC')) {
+            ez.classList.remove('DESC')
         }
     })
 }
