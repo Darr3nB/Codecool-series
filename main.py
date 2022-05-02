@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, request
+from flask import Flask, render_template, url_for, request, jsonify
 from data import queries
 import math
 from dotenv import load_dotenv
@@ -41,7 +41,7 @@ def most_rated(page=1, order_by='rating', direction='DESC'):
 
         most_rated_shows = util.most_rated_shows(int(page), order_by, direction)
 
-        return render_template('most_rated_shows.html', shows=most_rated_shows, number_of_pages=number_of_pages, page=page)
+        return jsonify(most_rated_shows)
 
 
 @app.route("/show/<show_id>")

@@ -55,7 +55,7 @@
                     <th class="homepage">Homepage</th>
                 </tr>
                 {% for show in shows %}
-                    <tr class="td-data-row">
+                    <tr class="td-data-row" id="table-row-{{ loop.index }}">
                         <td><a href="/show/{{ show['id'] }}">{{ show['title'] }}</a></td>
                         <td>{{ show['year'] }}</td>
                         <td>{{ show['runtime'] }}</td>
@@ -76,6 +76,7 @@
             </table>
             <div class="pagination">
                 <a id="leftArrow">«</a>
+                <span class="for-szanil">
                 {% for element in range(1, number_of_pages + 1) %}
                     {% if element == page %}
                         <a class="page-button {{ element }} active">{{ element }}</a>
@@ -83,6 +84,7 @@
                         <a class="page-button {{ element }}">{{ element }}</a>
                     {% endif %}
                 {% endfor %}
+                </span>
                 <a id="rightArrow">»</a>
             </div>
             <br><a href="/">Homepage</a>
