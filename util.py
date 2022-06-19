@@ -24,7 +24,7 @@ def find_show(show_id):
     result['runtime'] = time_string
 
     if result['trailer'] is not None:
-        result['trailer'] = result['trailer'].replace('watch?v=', 'embed/')
+        result['trailer'] = result['trailer'].replace('http://youtube.com/watch?v=', '')
 
     return result
 

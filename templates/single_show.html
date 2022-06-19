@@ -28,6 +28,7 @@
 
     <!-- page specific styling -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style/detailed-view.css') }}">
+    <script src="{{ url_for('static', filename="js/embed-youtube.js") }}"></script>
 </head>
 
 <body>
@@ -67,11 +68,13 @@
             {% if show['trailer'] == None %}
                 <p align="center">No trailer available</p>
             {% else %}
-                <p align="center">
-                    <iframe class="trailer" width="420" height="315"
-                            src="{{ show['trailer'] }}">
-                    </iframe>
-                </p>
+                <div align="center">
+                    <div id="player"></div>
+                </div>
+                <script>
+                    let videoId = "{{ show['trailer'] }}";
+                    onYouTubeIframeAPIReady(videoId);
+                </script>
             {% endif %}
         </div>
         <h1 class="title text-center">Seasons</h1>
